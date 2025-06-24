@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { IconArrowLeft, IconPhoto } from "@tabler/icons-react";
 
 import './styles/new.css'
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner";
 import { serviceAddProduct } from "../../services/product.service";
 
 export default function New () {
@@ -141,6 +141,8 @@ export default function New () {
                 </div>
 
             </main>
+
+            <Toaster position="top-center" richColors/>
 
         </>
 
