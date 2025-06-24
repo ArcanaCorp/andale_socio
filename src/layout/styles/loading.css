@@ -1,0 +1,27 @@
+.__loading {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+    background-color: var(--color-primary);
+}
+
+.__loading .__loader {
+    width: 28px;
+    height: 28px;
+    border: 2px solid #FFF;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+} 

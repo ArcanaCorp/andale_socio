@@ -1,17 +1,68 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { createRoot } from 'react-dom/client'
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AuthLayout from './app/auth/AuthLayout';
+import DashboardLayout from './app/dashboard/DashboardLayout';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import './statics/css/global.css'
+import Login from './app/auth/Login';
+import { AuthProvider } from './context/AuthContext';
+import Verify from './app/auth/Verify';
+import Complete from './app/auth/Complete';
+import Photo from './app/auth/Photo';
+
+const router = createBrowserRouter([
+    {
+        path: '/',
+    },
+    {
+        path: '/login',
+        element: <AuthLayout/>,
+        children: [
+            {
+                path: '/login',
+                element: <Login/>
+            },
+            {
+                path: '/login/verify',
+                element: <Verify/>
+            },
+            {
+                path: '/login/completed',
+                element: <Complete/>
+            },
+            {
+                path: '/login/completed/photo',
+                element: <Photo/>
+            }
+        ]
+    },
+    {
+        path: '/panel',
+        element: <DashboardLayout/>,
+        children: [
+            {
+                path: '/panel'
+            },
+            {
+                path: '/panel/products'
+            },
+            {
+                path: '/panel/profile'
+            }
+        ]
+    },
+])
+
+const root = createRoot(document.getElementById('root'))
+
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+    <>
+    
+        <AuthProvider>
+        
+            <RouterProvider router={router} />
+        
+        </AuthProvider>
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+    </>
+)

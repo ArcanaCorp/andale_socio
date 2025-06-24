@@ -1,0 +1,78 @@
+:root {
+
+    --color-primary: #F90050;
+    --color-white: #FFFFFF;
+    --color-dark: #181818;
+    --color-gray: #888888;
+    --color-secondary: #EEEEEE;
+
+    --font-family: "Manrope", sans-serif;
+
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    user-select: none;
+    box-sizing: border-box;
+    font-family: var(--font-family);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    width: 100dvw;
+    height: 100dvh;
+    font-size: 14px;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+input, select, textarea {
+    font-family: var(--font-family);
+}
+
+ul, li, ol {
+    list-style: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+img {
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-primary);
+}
+
+
+/* CLASES PREDETERMINADAS */
+
+/* BUTTONS */
+
+.__btn_primary {
+    color: var(--color-white);
+    background-color: var(--color-primary);
+}
+
+.__btn_disabled {
+    opacity: .8;
+    cursor: not-allowed;
+}
+
+/* BUTTONS */
+
+/* CLASES PREDETERMINADAS */

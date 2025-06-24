@@ -1,0 +1,47 @@
+.__dashboard_layout {
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-secondary);
+}
+
+.__main_dashboard {
+    width: 100%;
+    height: calc(100% - 140px);
+    overflow-y: auto;
+}
+
+.__tabs {
+    width: 100%;
+    height: 60px;
+    padding: 0rem 1rem;
+    background-color: var(--color-white);
+    border-top: 1px solid var(--color-secondary);
+}
+
+.__tabs .__tabs_items {
+    width: 100%;
+    display: flex;
+    height: inherit;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.__tabs .__tabs_items .__tab a {
+    display: inline-block;
+    padding: .6rem 1.8rem;
+    border-radius: 100px;
+    transition: ease-in-out .3s all;
+}
+
+.__tabs .__tabs_items .__tab a .tabler-icon {
+    stroke: var(--color-gray);
+}
+
+.__tabs .__tabs_items .__tab_active a {
+    transition: ease-in-out .3s all;
+    background-color: rgb(249, 0, 80, .2);
+}
+
+.__tabs .__tabs_items .__tab_active a .tabler-icon {
+    stroke: var(--color-primary);
+}

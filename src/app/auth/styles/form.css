@@ -1,0 +1,91 @@
+.__form_group {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.__form_group .__label {
+    font-size: .9rem;
+    display: block;
+    color: var(--color-gray);
+    margin-bottom: 1rem;
+}
+
+.__form_group .__label_upload {
+    display: grid;
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    cursor: pointer;
+    place-items: center;
+    border-radius: 100px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: var(--color-secondary);
+}
+
+.__form_group .__form_control {
+    position: relative;
+    width: 100%;
+    height: 60px;
+}
+
+.__form_group .__form_control .__form_ico {
+    position: absolute;
+    display: grid;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    place-items: center;
+}
+
+.__form_group .__form_control .__form_entry {
+    width: 100%;
+    height: inherit;
+    padding: 0px 1rem 0px 60px;
+    border-radius: 10px;
+    background-color: var(--color-secondary);
+}
+
+.__form_group .__form_control .__form_entry:focus {
+    border: 2px solid var(--color-primary);
+}
+
+.__form_group .__form_alert {
+    display: block;
+    font-size: .8rem;
+    padding: .8rem 0rem;
+    color: var(--color-primary);
+}
+
+.__form_group .__btn {
+    width: 100%;
+    height: 60px;
+    border-radius: 10px;
+}
+
+.__form_group .__btn_primary {
+    color: var(--color-white);
+    background-color: var(--color-primary);
+}
+
+.__form_group .__btn .__loader {
+    width: 28px;
+    height: 28px;
+    border: 2px solid #FFF;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+} 
