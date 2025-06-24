@@ -31,10 +31,10 @@ export default function DashboardLayout () {
         
                 <Header/>
 
-                <div className="__main_dashboard">
+                <main className="__main_dashboard">
                     <Link to={'/new'} className="__btn_float"><IconPencil size={24} stroke={'#FFFFFF'} strokeWidth={1.2}/></Link>
                     <Outlet/>
-                </div>
+                </main>
             
             </div>
 

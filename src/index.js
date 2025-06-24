@@ -10,6 +10,8 @@ import Verify from './app/auth/Verify';
 import Complete from './app/auth/Complete';
 import Photo from './app/auth/Photo';
 import New from './app/dashboard/New';
+import Products from './app/dashboard/Products';
+import EditProduct from './app/views/EditProduct';
 
 const router = createBrowserRouter([
     {
@@ -39,13 +41,18 @@ const router = createBrowserRouter([
         element: <DashboardLayout/>,
         children: [
             {
-                path: '/panel'
+                path: '/panel',
+                element: <Products/>
             }
         ]
     },
     {
         path: '/new',
         element: <New/>
+    },
+    {
+        path: '/edit/:productId',
+        element: <EditProduct/>
     }
 ])
 
