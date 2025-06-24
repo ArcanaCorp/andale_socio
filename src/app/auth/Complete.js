@@ -42,7 +42,7 @@ export default function Complete () {
                 if (!data.ok) return toast.warning('Alerta', { description: data.message })
 
                     toast.success('Éxito', { description: data.message })
-                    navigate('/login/completed/photo')
+                    navigate('/completed/photo')
 
             } catch (error) {
                 toast.error('Error', { description: error.message })

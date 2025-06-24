@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import Cookies from "js-cookie";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import Loading from "../../layout/Loading";
-import HeaderApp from "../../layout/HeaderApp";
+import Header from "../../layout/Header";
 import { Toaster } from "sonner";
 
 import './styles/layout.css'
-import Tabs from "../../layout/Tabs";
+import { IconPencil } from "@tabler/icons-react";
 
 export default function DashboardLayout () {
 
@@ -29,13 +29,12 @@ export default function DashboardLayout () {
 
             <div className="__dashboard_layout">
         
-                <HeaderApp/>
+                <Header/>
 
                 <div className="__main_dashboard">
+                    <Link to={'/new'} className="__btn_float"><IconPencil size={24} stroke={'#FFFFFF'} strokeWidth={1.2}/></Link>
                     <Outlet/>
                 </div>
-
-                <Tabs/>
             
             </div>
 

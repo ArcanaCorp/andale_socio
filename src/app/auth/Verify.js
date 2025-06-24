@@ -35,7 +35,7 @@ export default function Verify () {
                 if (data.completed) {
                     navigate('/mybuss')
                 } else {
-                    navigate('/login/completed')
+                    navigate('/completed')
                 }
             
         } catch (error) {

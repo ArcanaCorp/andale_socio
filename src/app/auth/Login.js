@@ -40,7 +40,7 @@ export default function Login () {
 
                 Cookies.set('andale_socio', data.token, { expires: 365 })
                 toast.success('Éxito', { description: data.message })
-                navigate('/login/verify')
+                navigate('/verify')
 
         } catch (error) {
             toast.error('Error', { description: error.message })

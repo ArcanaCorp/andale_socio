@@ -9,29 +9,27 @@ import { AuthProvider } from './context/AuthContext';
 import Verify from './app/auth/Verify';
 import Complete from './app/auth/Complete';
 import Photo from './app/auth/Photo';
+import New from './app/dashboard/New';
 
 const router = createBrowserRouter([
     {
         path: '/',
-    },
-    {
-        path: '/login',
         element: <AuthLayout/>,
         children: [
             {
-                path: '/login',
+                path: '/',
                 element: <Login/>
             },
             {
-                path: '/login/verify',
+                path: '/verify',
                 element: <Verify/>
             },
             {
-                path: '/login/completed',
+                path: '/completed',
                 element: <Complete/>
             },
             {
-                path: '/login/completed/photo',
+                path: '/completed/photo',
                 element: <Photo/>
             }
         ]
@@ -42,15 +40,13 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/panel'
-            },
-            {
-                path: '/panel/products'
-            },
-            {
-                path: '/panel/profile'
             }
         ]
     },
+    {
+        path: '/new',
+        element: <New/>
+    }
 ])
 
 const root = createRoot(document.getElementById('root'))

@@ -12,19 +12,19 @@ export default function AuthLayout () {
     const location = useLocation();
 
     const routesInfo = {
-        '/login': {
+        '/': {
             title: 'Ingresa tu número',
             description: 'Accede ingresando tu número de teléfono que usas para tu negocio.'
         },
-        '/login/verify': {
+        '/verify': {
             title: 'Verifica tu número',
             description: 'Hemos enviado un código de 6 dígitos para validar tu número.'
         },
-        '/login/completed': {
+        '/completed': {
             title: 'Completa tu info',
             description: 'Completa tu información para llegar a tus clientes.'
         },
-        '/login/completed/photo': {
+        '/completed/photo': {
             title: 'Sube tu foto',
             description: 'Sube una foto para que tus clientes te puedan reconocer facilmente.'
         }
@@ -36,7 +36,7 @@ export default function AuthLayout () {
     useEffect(() => {
         const token = Cookies.get('andale_socio')
         if (token) {
-            navigate('/mybuss')
+            navigate('/panel')
         }
     }, [navigate])
 

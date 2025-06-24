@@ -40,7 +40,7 @@ export default function Photo () {
             if (!data.ok) return toast.warning('Alerta', { description: data.message })
 
                 toast.success('Éxito', { description: data.message })
-                navigate('/mybuss')
+                navigate('/panel')
 
         } catch (error) {
             toast.error('Error', { description: error.message })
