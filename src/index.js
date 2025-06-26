@@ -12,6 +12,10 @@ import Photo from './app/auth/Photo';
 import New from './app/dashboard/New';
 import Products from './app/dashboard/Products';
 import EditProduct from './app/views/EditProduct';
+import { ProductProvider } from './context/ProductContext';
+import Error from './layout/Error';
+import Profile from './app/dashboard/Profile';
+import Terms from './layout/Terms';
 
 const router = createBrowserRouter([
     {
@@ -34,7 +38,8 @@ const router = createBrowserRouter([
                 path: '/completed/photo',
                 element: <Photo/>
             }
-        ]
+        ],
+        errorElement: <Error/>
     },
     {
         path: '/panel',
@@ -44,15 +49,28 @@ const router = createBrowserRouter([
                 path: '/panel',
                 element: <Products/>
             }
-        ]
+        ],
+        errorElement: <Error/>
     },
     {
         path: '/new',
-        element: <New/>
+        element: <New/>,
+        errorElement: <Error/>
     },
     {
         path: '/edit/:productId',
-        element: <EditProduct/>
+        element: <EditProduct/>,
+        errorElement: <Error/>
+    },
+    {
+        path: '/profile',
+        element: <Profile/>,
+        errorElement: <Error/>
+    },
+    {
+        path: '/terms',
+        element: <Terms/>,
+        errorElement: <Error/>
     }
 ])
 
@@ -62,8 +80,12 @@ root.render(
     <>
     
         <AuthProvider>
+
+            <ProductProvider>
         
-            <RouterProvider router={router} />
+                <RouterProvider router={router} />
+            
+            </ProductProvider>
         
         </AuthProvider>
 

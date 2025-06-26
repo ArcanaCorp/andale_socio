@@ -1,9 +1,13 @@
 import { useNavigate } from 'react-router-dom'
 import { URL_API } from '../config'
 import './styles/product-card.css'
-export default function ProductCard ({ sub, product }) {
+import { useAuth } from '../context/AuthContext';
+export default function ProductCard ({ product }) {
 
     const navigate = useNavigate();
+    const { user } = useAuth();
+
+    const sub = user?.sub;
 
     const image = product?.images.find((i) => i.is_main === true)
 

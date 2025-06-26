@@ -1,3 +1,45 @@
+.__message_products {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+}
+
+.__message_products .__loader {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--color-primary);
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.__message_products .__box_message_products {
+    padding: 1rem;
+    text-align: center;
+}
+
+.__message_products .__box_message_products h3 {
+    margin-bottom: 1rem;
+}
+
+.__message_products .__box_message_products button {
+    padding: 1rem 1.2rem;
+    border-radius: 10px;
+    background-color: var(--color-white);
+}
+
 .__grid_products {
     width: 100%;
     display: grid;

@@ -33,7 +33,7 @@ export default function Verify () {
 
                 toast.success('Éxito', { description: data.message })
                 if (data.completed) {
-                    navigate('/mybuss')
+                    navigate('/panel')
                 } else {
                     navigate('/completed')
                 }

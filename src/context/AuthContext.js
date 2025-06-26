@@ -13,10 +13,19 @@ export const AuthProvider = ({ children }) => {
         try {
             const data = await serviceInfoAccount(token)
             if (!data) return { ok: false, message: 'No se pudo recuperar la información de la sesión.' }
-                console.log(data);
                 setUser(data.bussines)
         } catch (error) {
             return { ok: false, message: error.message }
+        }
+    }
+
+    const contextLogoutAccount = async () => {
+        try {
+            setUser(null)
+            Cookies.remove('andale_socio')
+            return { ok: true, message: 'Se cerró la sesión', error: '', code: 201 }
+        } catch (error) {
+            return { ok: false, message: 'Se cerró la sesión', error: '', code: 201 }
         }
     }
 
@@ -36,7 +45,8 @@ export const AuthProvider = ({ children }) => {
 
     const contextValue = {
         user,
-        authReady
+        authReady,
+        contextLogoutAccount
     }
 
     return (

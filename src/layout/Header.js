@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext'
+
 import './styles/header.css'
-import { URL_API } from '../config';
+
 export default function Header () {
 
     const { user } = useAuth();
@@ -16,7 +17,7 @@ export default function Header () {
             </div>
 
             <Link to={`/profile`} className='__link_avatar'>
-                <img src={`${URL_API}/account/photo/${user?.sub}/${user?.photo}`} alt={`Foto de perfil`} loading='lazy' />
+                <img src={`${user?.photo}`} alt={`Foto de perfil`} loading='lazy' />
             </Link>
 
         </header>

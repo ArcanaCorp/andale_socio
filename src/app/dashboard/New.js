@@ -5,10 +5,12 @@ import { IconArrowLeft, IconPhoto } from "@tabler/icons-react";
 import './styles/new.css'
 import { toast, Toaster } from "sonner";
 import { serviceAddProduct } from "../../services/product.service";
+import { useProduct } from "../../context/ProductContext";
 
 export default function New () {
 
     const navigate = useNavigate();
+    const { contextSavedProduct } = useProduct();
     const [ images, setImages ] = useState([])
     const [ imagesURI, setImagesURI ] = useState([])
     const [ nameP, setNameP ] = useState('')
@@ -69,7 +71,7 @@ export default function New () {
             if (!data.ok) return toast.warning('Alerta', { description: data.message })
 
                 toast.success('Éxito', { description: data.message })
-                console.log(data);
+                contextSavedProduct(data.product)
                 navigate('/panel')
 
         } catch (error) {

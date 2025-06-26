@@ -1,17 +1,18 @@
 import { IconArrowLeft } from "@tabler/icons-react";
 import { useNavigate, useParams } from "react-router-dom"
-import { useAuth } from "../../context/AuthContext";
 import { useEffect, useState } from "react";
 import Loading from "../../layout/Loading";
-import { Toaster } from "sonner";
+import { toast, Toaster } from "sonner";
+import { serviceDeleteProduct } from "../../services/product.service";
+import { useProduct } from "../../context/ProductContext";
 
 export default function EditProduct () {
 
     const navigate = useNavigate();
     const { productId } = useParams();
+    const { products, contextDeleteProduct } = useProduct();
 
-    const { user } = useAuth();
-
+    const [ modal, setModal ] = useState(false)
     const [ product, setProduct ] = useState()
     const [ newName, setNewName ] = useState('')
     const [ newText, setNewText ] = useState('')
@@ -33,17 +34,31 @@ export default function EditProduct () {
         }
     };
 
+    const handleDelete = async () => {
+        try {
+            
+            const data = await serviceDeleteProduct(productId)
+            if (!data.ok) return toast.warning('Alerta', { description: data.message })
+
+                toast.success('Éxito', { description: data.message })
+                contextDeleteProduct(productId)
+                navigate('/')
+
+        } catch (error) {
+            toast.error('Error', { description: error.message })
+        }
+    }
+
     useEffect(() => {
         const getInfo = async () => {
-            if (user && productId) {
-                const products = user?.products;
+            if (products && productId) {
                 const info = products.find((p) => p.id === Number(productId))
                 setProduct(info)
                 setLoading(false)
             }
         }
         getInfo();
-    }, [user, productId])
+    }, [products, productId])
 
     if (loading) return <Loading/>;
 
@@ -106,9 +121,23 @@ export default function EditProduct () {
                         <button className={`__btn __btn_primary`}>Editar</button>
                     </div>
 
+                    <div className="__form_group">
+                        <button className={`__btn __btn_outline_primary`} onClick={() => setModal(true)}>Eliminar producto</button>
+                    </div>
+
                 </div>
             
             </main>
+
+            <div className={`__overlay ${modal ? '__overlay--active' : ''}`}>
+                <div className="__modal_bottom">
+                    <h3>¿Deseas eliminar el producto?</h3>
+                    <div style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
+                        <button className="__btn" onClick={() => setModal(false)}>Cancelar</button>
+                        <button className="__btn __btn_primary" onClick={handleDelete}>Si, eliminar</button>
+                    </div>
+                </div>
+            </div>
 
             <Toaster position="top-center" richColors />
 

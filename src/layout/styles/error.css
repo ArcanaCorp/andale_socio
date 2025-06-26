@@ -1,0 +1,8 @@
+.__error {
+    width: 100dvw;
+    height: 100dvh;
+    display: grid;
+    place-items: center;
+    color: var(--color-white);
+    background-color: var(--color-primary);
+}

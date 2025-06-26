@@ -58,6 +58,9 @@ a {
     color: var(--color-primary);
 }
 
+.tabler-icon {
+    stroke-width: 1.2;
+}
 
 /* CLASES PREDETERMINADAS */
 
@@ -66,6 +69,11 @@ a {
 .__btn_primary {
     color: var(--color-white);
     background-color: var(--color-primary);
+}
+
+.__btn_outline_primary {
+    color: var(--color-primary);
+    background-color: rgb(249, 0, 80, .1);
 }
 
 .__btn_disabled {
