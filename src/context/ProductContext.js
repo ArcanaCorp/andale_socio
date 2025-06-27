@@ -1,11 +1,13 @@
 import { createContext, useContext, useState } from "react";
 import { serviceListProduct } from "../services/product.service";
+import { serviceListCategories } from "../services/category.service";
 
 const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
 
     const [ products, setProducts ] = useState([]);
+    const [ categories, setCategories ] = useState([])
 
     const contextListProducts = async () => {
         try {
@@ -62,17 +64,67 @@ export const ProductProvider = ({ children }) => {
     };
 
     const contextUpdateProduct = (updatedProduct) => {
-        setProducts(prev =>
-            prev.map(prod => prod.id === updatedProduct.id ? updatedProduct : prod)
-        );
+        try {
+            console.log(updatedProduct);
+            // Actualizar el contexto
+            setProducts(prev =>
+                prev.map(prod => prod.id === updatedProduct.id ? updatedProduct : prod)
+            );
+
+            // Actualizar el localStorage con el producto actualizado
+            const localProducts = JSON.parse(localStorage.getItem('products')) || [];
+            const updatedProducts = localProducts.map(prod => 
+                String(prod.id) === String(updatedProduct.id) ? updatedProduct : prod
+            );
+            localStorage.setItem('products', JSON.stringify(updatedProducts));
+        } catch (error) {
+            console.error('Error al actualizar en el contexto/localStorage:', error);
+        }
     };
+
+    const contextListCategories = async () => {
+        try {
+
+            const localCategories = localStorage.getItem('categories');
+
+            if (localCategories) {
+                const parsedCategories = JSON.parse(localCategories);
+
+                // Verificar que sea un array y que no esté vacío
+                if (Array.isArray(parsedCategories) && parsedCategories.length > 0) {
+                    setCategories(parsedCategories);
+                    return { ok: true };
+                }
+            }
+
+            // Si no hay productos válidos en localStorage, consulta el servicio
+            const data = await serviceListCategories();
+
+            if (data.ok) {
+                if (data.categories && Array.isArray(data.categories) && data.categories.length > 0) {
+                    setCategories(data.categories);
+                    localStorage.setItem('categories', JSON.stringify(data.categories));
+                } else {
+                    setCategories([]);
+                    localStorage.removeItem('categories');  // limpiar localStorage si no hay productos válidos
+                }
+                return { ok: true };
+            }
+
+        } catch (error) {
+            console.error('Error al listar productos:', error);
+            return { ok: false };
+        }
+    }
 
     const contextValue = {
         products,
         contextListProducts,
         contextSavedProduct,
         contextDeleteProduct,
-        contextUpdateProduct
+        contextUpdateProduct,
+        categories,
+        contextListCategories
     }
 
     return (

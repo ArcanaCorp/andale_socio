@@ -11,6 +11,10 @@
     overflow-y: auto;
 }
 
+.__main_dashboard::-webkit-scrollbar {
+    display: none;
+}
+
 .__main_dashboard .__btn_float {
     position: fixed;
     display: grid;
@@ -18,9 +22,27 @@
     bottom: 20px;
     width: 60px;
     height: 60px;
+    z-index: 1;
     place-items: center;
     place-items: center;
     border-radius: 100px;
+    transition: .3s ease all;
     color: var(--color-white);
     background-color: var(--color-primary);
+}
+
+.__main_dashboard .__btn_float .tabler-icon {
+    transition: .3s ease all;
+}
+
+.__main_dashboard .__btn_float_cgt {
+    width: 50px;
+    height: 50px;
+    bottom: 160px;
+}
+
+.__main_dashboard .__btn_float_new {
+    width: 50px;
+    height: 50px;
+    bottom: 90px;
 }

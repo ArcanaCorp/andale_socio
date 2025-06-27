@@ -15,8 +15,8 @@ export default function ProductCard ({ product }) {
 
         <div className="__card_product" onClick={() => navigate(`/edit/${product?.id}`)}>
 
-            <div className="__card_product_image" style={{backgroundImage: `url(${URL_API}/product/photo/${sub}/${image.filename}})`}}>
-                <img src={`${URL_API}/product/photo/${sub}/${image.filename}`} style={{display: 'nonde'}} alt={product?.text} loading='lazy' />
+            <div className="__card_product_image" style={{backgroundImage: `url(${URL_API}/product/photo/${sub}/${image?.filename}})`}}>
+                <img src={`${URL_API}/product/photo/${sub}/${image?.filename}`} style={{display: 'nonde'}} alt={product?.text} loading='lazy' />
             </div>
             <div className="__card_product_info">
                 <h4>{product?.name}</h4>

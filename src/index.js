@@ -16,11 +16,14 @@ import { ProductProvider } from './context/ProductContext';
 import Error from './layout/Error';
 import Profile from './app/dashboard/Profile';
 import Terms from './layout/Terms';
+import NewCategory from './app/dashboard/NewCategory';
+import { UIProvider } from './context/UIContext';
+import OnlineGuard from './components/OnlineGuard';
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <AuthLayout/>,
+        element: <OnlineGuard><AuthLayout/></OnlineGuard>,
         children: [
             {
                 path: '/',
@@ -43,7 +46,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/panel',
-        element: <DashboardLayout/>,
+        element: <OnlineGuard><DashboardLayout/></OnlineGuard>,
         children: [
             {
                 path: '/panel',
@@ -55,6 +58,11 @@ const router = createBrowserRouter([
     {
         path: '/new',
         element: <New/>,
+        errorElement: <Error/>
+    },
+    {
+        path: '/category/:action',
+        element: <NewCategory/>,
         errorElement: <Error/>
     },
     {
@@ -78,16 +86,20 @@ const root = createRoot(document.getElementById('root'))
 
 root.render(
     <>
-    
-        <AuthProvider>
 
-            <ProductProvider>
+        <UIProvider>
         
-                <RouterProvider router={router} />
+            <AuthProvider>
+
+                <ProductProvider>
             
-            </ProductProvider>
-        
-        </AuthProvider>
+                    <RouterProvider router={router} />
+                
+                </ProductProvider>
+            
+            </AuthProvider>
+            
+        </UIProvider>
 
     </>
 )

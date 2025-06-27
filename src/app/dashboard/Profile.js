@@ -1,15 +1,18 @@
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
-import { IconCamera, IconChevronLeft, IconFileText, IconHelp, IconPencil, IconInfoCircle } from "@tabler/icons-react";
+import { IconChevronLeft, IconFileText, IconHelp, IconInfoCircle } from "@tabler/icons-react";
 
 import { useAuth } from "../../context/AuthContext";
+
+import EditProfile from "../../components/EditProfile";
+import EditProfilePhoto from "../../components/EditProfilePhoto";
 
 import './styles/profile.css'
 
 export default function Profile () {
 
     const navigate = useNavigate();
-    const { user, contextLogoutAccount } = useAuth();
+    const { contextLogoutAccount } = useAuth();
 
     const handleLogout = async () => {
         try {
@@ -36,11 +39,7 @@ export default function Profile () {
         
                 <div className="__section_photo">
 
-                    <div className="__photo" style={{backgroundImage: `url(${user?.photo})`}}>
-                        <img src={`${user?.photo}`} alt={`Foto de ${user?.name} | ${user?.text} | Ándale Socio`} style={{display: 'none'}} loading="lazy" />
-                        <input type="file" style={{display: 'none'}} id="upload" accept="image/png, image/jpg, image/jpeg" />
-                        <label className="__upload" htmlFor="upload"><IconCamera/></label>
-                    </div>
+                    <EditProfilePhoto/>
 
                 </div>
 
@@ -48,17 +47,7 @@ export default function Profile () {
 
                     <h3>Edita tu información</h3>
                     
-                    <div>
-                        <div>
-                            <input placeholder="Ingresa tu nuevo nombre" />
-                            <button><IconPencil/></button>
-                        </div>
-
-                        <div>
-                            <input placeholder="Ingresa tu nuevo nombre" />
-                            <button><IconPencil/></button>
-                        </div>
-                    </div>
+                    <EditProfile/>
 
                 </section>
 

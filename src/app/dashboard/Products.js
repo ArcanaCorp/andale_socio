@@ -3,32 +3,30 @@ import ProductCard from '../../components/ProductCard';
 import { useProduct } from '../../context/ProductContext';
 import './styles/products.css'
 import { toast } from 'sonner';
+import Categories from '../../components/Categories';
 
 export default function Products () {
 
-    const { products, contextListProducts } = useProduct();
+    const { products, contextListProducts, categories, contextListCategories } = useProduct();
     const [ loading, setLoading ] = useState(false);
 
-    const getProducts = async () => {
-
+    const getData = async () => {
         try {
-            
-            setLoading(true)
+            setLoading(true);
 
             if (products.length === 0) {
-                await contextListProducts()
+                await contextListCategories();
+                await contextListProducts();
             }
-
         } catch (error) {
-            toast.error('Error', { description: error.message })
+            toast.error('Error', { description: error.message });
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-        
     }
 
     useEffect(() => {
-        getProducts();
+        getData()
     }, [])
 
     return (
@@ -43,26 +41,30 @@ export default function Products () {
             
             ) : (
 
-                products.length === 0 ? (
+                <>
 
-                    <div className='__message_products'>
-                        <div className='__box_message_products'>
-                            <h3>No hay productos disponibles</h3>
-                            <button onClick={getProducts}>Volver a intentar</button>
-                        </div>
-                    </div>
-
-                ) : (
-
-                    <div className="__grid_products">
-                        
-                        {products.map((p) => (
-                            <ProductCard key={p.id} product={p} />
-                        ))}
+                    {categories.length > 0 && ( <Categories/> )}
                     
-                    </div>
+                    {products.length === 0 ? (
 
-                )
+                        <div className='__message_products'>
+                            <div className='__box_message_products'>
+                                <h3>No hay productos disponibles</h3>
+                                <button onClick={getData}>Volver a intentar</button>
+                            </div>
+                        </div>
+
+                    ) : (
+
+                        <div className="__grid_products">
+                                
+                            {products.map((p) => ( <ProductCard key={p.id} product={p} /> ))}
+                            
+                        </div>
+
+                    )}
+
+                </>
             )}
 
         </>

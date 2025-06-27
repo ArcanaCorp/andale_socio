@@ -1,0 +1,8 @@
+.__offline_content {
+    display: grid;
+    width: 100dvw;
+    height: 100dvh;
+    place-items: center;
+    color: var(--color-white);
+    background-color: var(--color-primary);
+}

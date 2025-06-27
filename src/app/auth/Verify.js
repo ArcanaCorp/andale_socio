@@ -37,7 +37,6 @@ export default function Verify () {
                 } else {
                     navigate('/completed')
                 }
-            
         } catch (error) {
             console.error(error);
             toast.error('Error', { description: error.message })

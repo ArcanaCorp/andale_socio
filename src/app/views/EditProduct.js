@@ -1,16 +1,17 @@
-import { IconArrowLeft } from "@tabler/icons-react";
+import { IconArrowLeft, IconCheck, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import Loading from "../../layout/Loading";
 import { toast, Toaster } from "sonner";
-import { serviceDeleteProduct } from "../../services/product.service";
+import { serviceDeleteProduct, serviceProductId, serviceUpdateProduct } from "../../services/product.service";
 import { useProduct } from "../../context/ProductContext";
+import ModalDelete from "../../components/ModalDelete";
 
 export default function EditProduct () {
 
     const navigate = useNavigate();
     const { productId } = useParams();
-    const { products, contextDeleteProduct } = useProduct();
+    const { contextDeleteProduct, contextUpdateProduct } = useProduct();
 
     const [ modal, setModal ] = useState(false)
     const [ product, setProduct ] = useState()
@@ -19,6 +20,8 @@ export default function EditProduct () {
     const [ newAmount, setNewAmount ] = useState('')
     const [ newPrice, setNewPrice ] = useState('')
     const [ loading, setLoading ] = useState(true)
+
+    const [editingField, setEditingField] = useState(null);
 
     const handleAmountChange = (e) => {
         const value = e.target.value;
@@ -33,6 +36,8 @@ export default function EditProduct () {
             setNewPrice(value);
         }
     };
+
+    const handleViewModal = () => setModal(!modal)
 
     const handleDelete = async () => {
         try {
@@ -49,16 +54,55 @@ export default function EditProduct () {
         }
     }
 
+    const handleUpdateInfo = async () => {
+        try {
+            
+            const payload = {
+                ...(newName.trim() && { name: newName }),
+                ...(newText.trim() && { text: newText }),
+                ...(newAmount.trim() && { amount: newAmount } ),
+                ...(newPrice.trim() && { price: newPrice })
+            };
+            
+            // Si no hay datos válidos, no enviamos nada
+            if (Object.keys(payload).length === 0) {
+                toast.warning('Alerta', { description: "No hay datos válidos para actualizar." })
+                setEditingField(null);
+                return;
+            }
+            
+            const data = await serviceUpdateProduct(productId, payload)
+            
+            if (!data.ok) return toast.warning('Alerta', { description: data.message })
+            
+                toast.success('Éxito', { description: data.message })
+                contextUpdateProduct(data?.product)
+
+        } catch (error) {
+            toast.error('Error', { description: error.message })
+        }
+    }
+
+    const handleEditClick = (field) => {
+        if (editingField === field) {
+            handleUpdateInfo()
+            setEditingField(null)
+        } else {
+            setEditingField(field)
+        }
+    }
+
     useEffect(() => {
         const getInfo = async () => {
-            if (products && productId) {
-                const info = products.find((p) => p.id === Number(productId))
-                setProduct(info)
+            if (productId) {
+                const info = await serviceProductId(productId)
+                if (!info.ok) return;
+                setProduct(info?.product)
                 setLoading(false)
             }
         }
         getInfo();
-    }, [products, productId])
+    }, [productId])
 
     if (loading) return <Loading/>;
 
@@ -67,8 +111,11 @@ export default function EditProduct () {
         <>
         
             <header className="__header_new">
-                <button className="__btn_back" onClick={() => navigate('/panel')}><IconArrowLeft size={18} /></button>
-                <h3>Editar producto</h3>
+                <div className="__col">
+                    <button className="__btn_back" onClick={() => navigate('/panel')}><IconArrowLeft size={18} /></button>
+                    <h3>Editar producto</h3>
+                </div>
+                <button className="__btn_delete __btn_outline_primary" onClick={handleViewModal}><IconTrash/></button>
             </header>
 
             <main className="__main_new">
@@ -82,7 +129,8 @@ export default function EditProduct () {
                         <label htmlFor="edit-name" className="__label">Editar nombre del producto</label>
 
                         <div className="__form_control">
-                            <input type="text" className="__form_entry" id="edit-name" value={newName} placeholder={`${product?.name}`} onChange={(e) => setNewName(e.target.value)} />
+                            <input type="text" className="__form_entry" id="edit-name" disabled={editingField !== 'name'} value={newName} placeholder={`${product?.name}`} onChange={(e) => setNewName(e.target.value)} />
+                            <button className="__btn_edit" onClick={() => handleEditClick('name')}>{editingField === 'name' ? <IconCheck/> : <IconPencil/>}</button>
                         </div>
 
                     </div>
@@ -91,8 +139,9 @@ export default function EditProduct () {
 
                         <label htmlFor="edit-text" className="__label">Editar descripción del producto</label>
 
-                        <div className="__form_control">
-                            <textarea type="text" className="__form_entry_box" id="edit-text" value={newText} placeholder={`${product?.text}`} onChange={(e) => setNewText(e.target.value)} />
+                        <div className="__form_control __form_control--edit">
+                            <textarea type="text" className="__form_entry_box" id="edit-text"  disabled={editingField !== 'text'}value={newText} placeholder={`${product?.text}`} onChange={(e) => setNewText(e.target.value)} />
+                            <button className="__btn_edit" onClick={() => handleEditClick('text')}>{editingField === 'text' ? <IconCheck/> : <IconPencil/>}</button>
                         </div>
 
                     </div>
@@ -102,7 +151,8 @@ export default function EditProduct () {
                         <label htmlFor="edit-amount" className="__label">Editar cantidad del producto</label>
 
                         <div className="__form_control">
-                            <input type="tel" inputMode="numeric" pattern="[0-9]*" className="__form_entry" id="edit-amount" value={newAmount} placeholder={`${product?.amount}`} onChange={handleAmountChange} />
+                            <input type="tel" inputMode="numeric" pattern="[0-9]*" disabled={editingField !== 'amount'} className="__form_entry" id="edit-amount" value={newAmount} placeholder={`${product?.amount}`} onChange={handleAmountChange} />
+                            <button className="__btn_edit" onClick={() => handleEditClick('amount')}>{editingField === 'amount' ? <IconCheck/> : <IconPencil/>}</button>
                         </div>
 
                     </div>
@@ -112,32 +162,17 @@ export default function EditProduct () {
                         <label htmlFor="edit-price" className="__label">Editar precio del producto</label>
 
                         <div className="__form_control">
-                            <input type="tel" inputMode="numeric"  className="__form_entry" id="edit-price" value={newPrice} placeholder={`${product?.price}`} onChange={handlePriceChange} />
+                            <input type="tel" inputMode="numeric"  className="__form_entry" disabled={editingField !== 'price'} id="edit-price" value={newPrice} placeholder={`${product?.price}`} onChange={handlePriceChange} />
+                            <button className="__btn_edit" onClick={() => handleEditClick('price')}>{editingField === 'price' ? <IconCheck/> : <IconPencil/>}</button>
                         </div>
 
-                    </div>
-
-                    <div className="__form_group">
-                        <button className={`__btn __btn_primary`}>Editar</button>
-                    </div>
-
-                    <div className="__form_group">
-                        <button className={`__btn __btn_outline_primary`} onClick={() => setModal(true)}>Eliminar producto</button>
                     </div>
 
                 </div>
             
             </main>
 
-            <div className={`__overlay ${modal ? '__overlay--active' : ''}`}>
-                <div className="__modal_bottom">
-                    <h3>¿Deseas eliminar el producto?</h3>
-                    <div style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
-                        <button className="__btn" onClick={() => setModal(false)}>Cancelar</button>
-                        <button className="__btn __btn_primary" onClick={handleDelete}>Si, eliminar</button>
-                    </div>
-                </div>
-            </div>
+            <ModalDelete modal={modal} handleDelete={handleDelete} handleViewModal={handleViewModal} />
 
             <Toaster position="top-center" richColors />
 

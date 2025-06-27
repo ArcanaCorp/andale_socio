@@ -24,6 +24,26 @@ export const serviceListProduct = async () => {
 
 }
 
+export const serviceProductId = async (productId) => {
+    try {
+
+        const response = await fetch(`${URL_API}/product/list/${productId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${Cookies.get('andale_socio')}`
+            }
+        })
+
+        const data = await response.json();
+
+        if (!response.ok) throw new Error(data.message);
+        
+            return data;
+    } catch (error) {
+        return { ok: false, message: error.message, error: error, code: 500 }
+    }
+}
+
 export const serviceAddProduct = async (formData) => {
     try {
         
@@ -44,6 +64,31 @@ export const serviceAddProduct = async (formData) => {
     } catch (error) {
         return { ok: false, message: error.message, error: error, code: 500 }        
     }
+}
+
+export const serviceUpdateProduct = async (productId, payload) => {
+
+    try {
+        const sub = Cookies.get('andale_socio');
+        const response = await fetch(`${URL_API}/product/${productId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${sub}`
+            },
+            body: JSON.stringify(payload)
+        })
+        
+        const data = await response.json()
+        
+        if (!response.ok) throw new Error(data.message);
+                
+            return data;
+
+    } catch (error) {
+        return { ok: false, message: error.message, error: error, code: 500 }
+    }
+
 }
 
 export const serviceDeleteProduct = async (productId) => {

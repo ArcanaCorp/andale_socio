@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IconArrowLeft, IconPhoto } from "@tabler/icons-react";
-
-import './styles/new.css'
 import { toast, Toaster } from "sonner";
 import { serviceAddProduct } from "../../services/product.service";
 import { useProduct } from "../../context/ProductContext";
+
+import './styles/new.css'
 
 export default function New () {
 
@@ -86,8 +86,10 @@ export default function New () {
         <>
         
             <header className="__header_new">
-                <button className="__btn_back" onClick={() => navigate('/panel')}><IconArrowLeft size={18} /></button>
-                <h3>Crea un nuevo producto</h3>
+                <div className="__col">
+                    <button className="__btn_back" onClick={() => navigate('/panel')}><IconArrowLeft size={18} /></button>
+                    <h3>Crea un nuevo producto</h3>
+                </div>
             </header>
 
             <main className="__main_new">
